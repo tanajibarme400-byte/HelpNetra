@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNetra | AI-Driven Volunteer Coordination</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .view-section {
+            display: none;
+            opacity: 1;
+        }
+
+        .view-section.active {
+            display: block !important;
+        }
+
+        #portal-discover.active {
+            display: block !important;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Offline Indicator -->
+    <div id="offline-banner" class="offline-banner hidden">
+        <i class="fa-solid fa-wifi-slash"></i> You are currently offline. Data will sync automatically when connection
+        is restored.
+    </div>
+    <div class="background-elements">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="assets/logo.jpg" alt="HelpNetra Logo" class="logo-img">
+                <span>HelpNetra</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" data-target="home"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#" class="nav-link" data-target="services"><i class="fa-solid fa-hand-holding-heart"></i>
+                    Services</a>
+                <a href="#" class="nav-link" data-target="dashboard"><i class="fa-solid fa-chart-pie"></i> Needs
+                    Dashboard</a>
+                <a href="#" class="nav-link" data-target="volunteers"><i class="fa-solid fa-network-wired"></i> AI
+                    Match</a>
+                <a href="#" class="nav-link" data-target="report"><i class="fa-solid fa-bullhorn"></i> Data
+                    Collection</a>
+            </div>
+            <div class="nav-actions">
+                <div class="nav-icons">
+                    <button class="icon-btn" id="btn-notifications">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="icon-badge">2</span>
+                    </button>
+                    <button class="icon-btn" id="btn-chat">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span class="icon-badge">1</span>
+                    </button>
+                </div>
+                <div class="auth-buttons" style="display: flex; gap: 0.8rem; align-items: center;">
+                    <button class="btn btn-outline"
+                        style="border-radius: 30px; padding: 0.5rem 1.2rem; font-size: 0.9rem; transition: all 0.3s ease; border-color: rgba(255,255,255,0.3);"><i
+                            class="fa-solid fa-right-to-bracket"></i> Log In</button>
+                    <button class="btn btn-primary btn-glow"
+                        style="border-radius: 30px; padding: 0.5rem 1.2rem; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);"><i
+                            class="fa-solid fa-user-plus"></i> Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Home Section -->
+        <!-- Home Section -->
+        <section id="home" class="view-section active">
+            <div class="hero" style="min-height: 80vh; align-items: center;">
+                <div class="hero-content">
+                    <span class="badge"
+                        style="background: rgba(67, 97, 238, 0.2); color: var(--primary-light); padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; margin-bottom: 1.5rem; display: inline-block; border: 1px solid rgba(67, 97, 238, 0.3);">
+                        <i class="fa-solid fa-bolt-lightning"></i> AI-Powered Humanitarian Response
+                    </span>
+                    <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem;">Connecting <span
+                            class="text-gradient">Hearts</span> <br> Through Smart <span
+                            class="text-gradient">Technology</span></h1>
+                    <p
+                        style="font-size: 1.1rem; line-height: 1.6; opacity: 0.9; max-width: 600px; margin-bottom: 2.5rem;">
+                        HelpNetra bridges the gap between scattered community needs and passionate volunteers. We
+                        transform chaotic data into a life-saving roadmap for social impact.
+                    </p>
+                    <div class="hero-buttons" style="display: flex; gap: 1.5rem;">
+                        <button class="btn btn-primary btn-lg btn-glow"
+                            style="padding: 1rem 2rem; border-radius: 12px; font-weight: bold;"
+                            onclick="document.querySelector('[data-target=\'volunteers\']').click()">
+                            Join the Mission <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+                        </button>
+                        <button class="btn btn-outline btn-lg"
+                            style="padding: 1rem 2rem; border-radius: 12px; border-width: 2px;"
+                            onclick="document.querySelector('[data-target=\'report\']').click()">
+                            Report Urgent Need
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image" style="position: relative;">
+                    <div style="position: relative; z-index: 2;">
+                        <img src="assets/humanitarian_aid.png" alt="Humanitarian Aid"
+                            style="width: 100%; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);">
+                    </div>
+                    <div class="glass-card hero-stats"
+                        style="position: absolute; bottom: -30px; left: -40px; z-index: 3; padding: 1.5rem; min-width: 280px; border: 1px solid rgba(255,255,255,0.2);">
+                        <div class="stat-item" style="margin-bottom: 1rem;">
+                            <i class="fa-solid fa-hand-holding-heart"
+                                style="font-size: 2rem; color: var(--primary-light);"></i>
+                            <div>
+                                <h3 style="font-size: 1.5rem; margin: 0;">2,450+</h3>
+                                <span style="font-size: 0.8rem; opacity: 0.7;">Active Heroes</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fa-solid fa-map-location-dot" style="font-size: 2rem; color: var(--success);"></i>
+                            <div>
+                                <h3 style="font-size: 1.5rem; margin: 0;">48</h3>
+                                <span style="font-size: 0.8rem; opacity: 0.7;">Districts Reached</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-section text-center" style="margin: 6rem 0; padding: 4rem; position: relative;">
+                <div
+                    style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); font-size: 5rem; opacity: 0.1; color: var(--primary-light);">
+                    <i class="fa-solid fa-quote-left"></i></div>
+                <h2
+                    style="font-style: italic; font-weight: 300; font-size: 2.2rem; line-height: 1.4; color: var(--text-light); max-width: 900px; margin: 0 auto;">
+                    "The best way to find yourself is to lose yourself in the service of others."
+                </h2>
+                <p style="margin-top: 1.5rem; color: var(--primary-light); font-weight: 600; letter-spacing: 2px;">—
+                    MAHATMA GANDHI</p>
+            </div>
+
+            <div class="problem-focus-grid"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 6rem;">
+                <div class="problem-image">
+                    <img src="assets/tech_response.png" alt="Tech Response"
+                        style="width: 100%; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
+                </div>
+                <div class="problem-text">
+                    <h2 style="margin-bottom: 1.5rem;">Solving the <span class="text-gradient">Coordination
+                            Crisis</span></h2>
+                    <p style="margin-bottom: 1.5rem; line-height: 1.7; opacity: 0.8;">
+                        In times of crisis, information is as valuable as supplies. Yet, most community needs are
+                        reported via scattered paper forms or chaotic social media threads. This leads to
+                        <strong>delayed responses</strong> and <strong>wasted resources</strong>.
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="glass-card" style="padding: 1rem; display: flex; gap: 1rem; align-items: center;">
+                            <div
+                                style="background: var(--danger); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <p style="margin: 0; font-size: 0.9rem;"><strong>72 Hours:</strong> Average time to
+                                coordinate aid using traditional methods.</p>
+                        </div>
+                        <div class="glass-card" style="padding: 1rem; display: flex; gap: 1rem; align-items: center;">
+                            <div
+                                style="background: var(--success); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fa-solid fa-bolt"></i></div>
+                            <p style="margin: 0; font-size: 0.9rem;"><strong>15 Minutes:</strong> Average time with
+                                HelpNetra's AI Matchmaking.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <!-- Services Section -->
+        <section id="services" class="view-section">
+            <div class="section-header text-center">
+                <h2>Empowering Impact through AI Innovation</h2>
+                <p>HelpNetra isn't just a platform; it's a mission to eliminate the chaos in community aid and volunteer
+                    coordination.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                <div class="glass-card" style="border-left: 4px solid var(--danger);">
+                    <h3 style="color: var(--danger); margin-bottom: 1rem;"><i
+                            class="fa-solid fa-triangle-exclamation"></i> The Problem</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-xmark" style="margin-top: 4px;"></i>
+                            <span><strong>Disconnected Data:</strong> Vital field information often stays trapped in
+                                paper reports or scattered chats, leading to ignored needs.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-xmark" style="margin-top: 4px;"></i>
+                            <span><strong>Inefficient Matching:</strong> Sending wrong volunteers to tasks waste time
+                                and resources during critical disaster response.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-xmark" style="margin-top: 4px;"></i>
+                            <span><strong>Zero Accountability:</strong> Without live tracking, it's impossible to verify
+                                if aid reached the intended destination on time.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card" style="border-left: 4px solid var(--success);">
+                    <h3 style="color: var(--success); margin-bottom: 1rem;"><i class="fa-solid fa-check-double"></i> Our
+                        Solution</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-check" style="color: var(--success); margin-top: 4px;"></i>
+                            <span><strong>Centralized Intelligence:</strong> Our AI digitizes field data instantly,
+                                turning scattered reports into a real-time actionable dashboard.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-check" style="color: var(--success); margin-top: 4px;"></i>
+                            <span><strong>Smart AI Matchmaking:</strong> Algorithms pair the right skills with the right
+                                location, ensuring 100% efficient resource allocation.</span>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 10px;">
+                            <i class="fa-solid fa-circle-check" style="color: var(--success); margin-top: 4px;"></i>
+                            <span><strong>Live Field Visibility:</strong> Real-time GPS tracking and live status updates
+                                provide full transparency for every single mission.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-center" style="margin-bottom: 2rem; color: var(--primary-light);">Our Core Domains of
+                Support</h3>
+            <div class="services-grid">
+                <div class="glass-card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+                    <h3>Education & Skill Development</h3>
+                    <p>AI-optimized scheduling for teaching and vocational training programs.</p>
+                </div>
+                <div class="glass-card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-notes-medical"></i></div>
+                    <h3>Healthcare & Nutrition</h3>
+                    <p>Coordinating medical camps and food distribution with precision logic.</p>
+                </div>
+                <div class="glass-card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-leaf"></i></div>
+                    <h3>Environmental Protection</h3>
+                    <p>Real-time tracking for tree planting drives and animal rescue operations.</p>
+                </div>
+                <div class="glass-card service-card">
+                    <div class="service-icon"><i class="fa-solid fa-people-carry-box"></i></div>
+                    <h3>Disaster Relief & Aid</h3>
+                    <p>Rapid response coordination during emergencies using live map intelligence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rewards & Recognition Section -->
+        <section id="rewards-info" class="view-section" style="padding-top: 4rem;">
+            <div class="section-header text-center">
+                <span class="badge badge-ai"
+                    style="background: rgba(248, 150, 30, 0.2); color: var(--warning); border-color: rgba(248, 150, 30, 0.4);"><i
+                        class="fa-solid fa-trophy"></i> Rewards & Recognition</span>
+                <h2>Your Impact, Honored</h2>
+                <p>We value every hour you give. Our unique reward system ensures your dedication is recognized
+                    professionally and personally.</p>
+            </div>
+
+            <div class="rewards-showcase"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <!-- Professional Rewards -->
+                <div class="glass-card reward-card"
+                    style="border-top: 4px solid var(--primary); padding: 2rem; transition: transform 0.3s ease;">
+                    <div style="font-size: 2.5rem; color: var(--primary-light); margin-bottom: 1.5rem;"><i
+                            class="fa-solid fa-file-signature"></i></div>
+                    <h3 style="margin-bottom: 1rem;">Professional Growth</h3>
+                    <ul style="list-style: none; padding: 0; opacity: 0.8; font-size: 0.9rem; line-height: 2;">
+                        <li><i class="fa-solid fa-circle-check text-success" style="margin-right: 8px;"></i> Verified
+                            Digital Certificates</li>
+                        <li><i class="fa-solid fa-circle-check text-success" style="margin-right: 8px;"></i> Guaranteed
+                            Internships</li>
+                        <li><i class="fa-solid fa-circle-check text-success" style="margin-right: 8px;"></i> LOR from
+                            Top NGOs</li>
+                    </ul>
+                </div>
+
+                <!-- Recognition Rewards -->
+                <div class="glass-card reward-card"
+                    style="border-top: 4px solid var(--warning); padding: 2rem; transition: transform 0.3s ease;">
+                    <div style="font-size: 2.5rem; color: var(--warning); margin-bottom: 1.5rem;"><i
+                            class="fa-solid fa-medal"></i></div>
+                    <h3 style="margin-bottom: 1rem;">Global Recognition</h3>
+                    <ul style="list-style: none; padding: 0; opacity: 0.8; font-size: 0.9rem; line-height: 2;">
+                        <li><i class="fa-solid fa-circle-check text-warning" style="margin-right: 8px;"></i> Physical
+                            Medals for Elites</li>
+                        <li><i class="fa-solid fa-circle-check text-warning" style="margin-right: 8px;"></i> Social
+                            Media Feature Posts</li>
+                        <li><i class="fa-solid fa-circle-check text-warning" style="margin-right: 8px;"></i> Hall of
+                            Fame Induction</li>
+                    </ul>
+                </div>
+
+                <!-- Lifestyle Rewards -->
+                <div class="glass-card reward-card"
+                    style="border-top: 4px solid var(--danger); padding: 2rem; transition: transform 0.3s ease;">
+                    <div style="font-size: 2.5rem; color: var(--danger); margin-bottom: 1.5rem;"><i
+                            class="fa-solid fa-ticket"></i></div>
+                    <h3 style="margin-bottom: 1rem;">Exclusive Perks</h3>
+                    <ul style="list-style: none; padding: 0; opacity: 0.8; font-size: 0.9rem; line-height: 2;">
+                        <li><i class="fa-solid fa-circle-check text-danger" style="margin-right: 8px;"></i> Event &
+                            Movie Tickets</li>
+                        <li><i class="fa-solid fa-circle-check text-danger" style="margin-right: 8px;"></i> Shopping
+                            Vouchers</li>
+                        <li><i class="fa-solid fa-circle-check text-danger" style="margin-right: 8px;"></i> Sponsored
+                            Tours & Trips</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Call to action -->
+            <div class="glass-card mt-5 text-center"
+                style="background: linear-gradient(90deg, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1)); border: 1px dashed var(--primary-light); padding: 2rem;">
+                <p style="margin: 0; font-weight: 500; font-size: 1.1rem;">Ready to earn your first reward? <a href="#"
+                        onclick="document.querySelector('[data-target=\'volunteers\']').click()"
+                        style="color: var(--primary-light); text-decoration: underline; font-weight: bold;">View Current
+                        Missions</a></p>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="view-section">
+            <div class="section-header">
+                <h2>Community Needs Dashboard</h2>
+                <p>Aggregated data from scattered paper surveys and field reports, providing a clear view of urgent
+                    local needs.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="glass-card col-span-2">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-fire text-danger"></i> Urgent Local Needs</h3>
+                        <div class="filters">
+                            <select class="select-glass">
+                                <option>All Categories</option>
+                                <option>Medical</option>
+                                <option>Education</option>
+                                <option>Disaster Relief</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="needs-list" id="needs-container">
+                        <!-- Needs populated by JS -->
+                        <div class="empty-state">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            <p>Loading real-time community needs...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-brain text-primary"></i> AI Smart Analytics</h3>
+                    </div>
+                    <div class="ai-insight-box mb-4" id="ai-dynamic-forecast">
+                        <i class="fa-solid fa-wand-magic-sparkles text-primary" style="font-size: 1.5rem;"></i>
+                        <p class="text-sm mt-2" id="ai-forecast-text">Analyzing local data patterns...</p>
+                    </div>
+
+                    <div class="card-header mt-4">
+                        <h3><i class="fa-solid fa-chart-simple text-primary"></i> Impact Overview</h3>
+                    </div>
+                    <div class="chart-container">
+                        <div class="circular-progress" id="circular-progress-bar" style="--value: 0;">
+                            <div class="inner-circle">
+                                <h2 id="needs-met-percentage">0%</h2>
+                                <span>Needs Met</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="impact-stats mt-4" id="impact-stats-container">
+                        <div class="impact-row">
+                            <span>Medical</span>
+                            <div class="progress-bar">
+                                <div class="fill bg-danger" id="stat-medical" style="width: 0%"></div>
+                            </div>
+                            <span id="label-medical">0%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span>Food</span>
+                            <div class="progress-bar">
+                                <div class="fill bg-warning" id="stat-food" style="width: 0%"></div>
+                            </div>
+                            <span id="label-food">0%</span>
+                        </div>
+                        <div class="impact-row">
+                            <span>Education</span>
+                            <div class="progress-bar">
+                                <div class="fill bg-success" id="stat-education" style="width: 0%"></div>
+                            </div>
+                            <span id="label-education">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Geo-Mapping -->
+            <div class="glass-card mt-4 p-0 overflow-hidden"
+                style="position: relative; border-radius: 12px; margin-top: 1.5rem;">
+                <div class="card-header"
+                    style="position: absolute; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(20,22,30,0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 1.5rem; margin: 0; border-radius: 12px 12px 0 0;">
+                    <h3 style="margin: 0;"><i class="fa-solid fa-map-location-dot text-primary"></i> Live Impact
+                        Hotspots</h3>
+                    <div class="badge badge-ai" style="margin: 0;"><span class="pulse-dot"></span> Real-time Sync</div>
+                </div>
+                <div id="impact-map" style="height: 450px; width: 100%; border-radius: 12px; z-index: 1;"></div>
+            </div>
+        </section>
+
+        <!-- Volunteer AI Match Section -->
+        <section id="volunteers" class="view-section">
+            <div class="section-header text-center">
+                <span class="badge badge-ai"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Powered</span>
+                <h2>Smart Volunteer Matching</h2>
+                <p>Our intelligent system matches available volunteers with the tasks they are best suited for based on
+                    skills, location, and urgency.</p>
+            </div>
+
+            <div class="matching-container">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-users"></i> Available Volunteers</h3>
+                    </div>
+                    <div class="volunteer-list" id="volunteers-container">
+                        <!-- Volunteers populated by JS -->
+                    </div>
+                </div>
+
+                <div class="matching-action">
+                    <button class="btn btn-primary btn-glow" id="run-ai-match">
+                        <i class="fa-solid fa-robot"></i> Run AI Match
+                    </button>
+                    <div class="match-status hidden" id="match-status"
+                        style="display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 2rem; background: rgba(0,0,0,0.2); border-radius: 16px; border: 1px solid rgba(67, 97, 238, 0.3); box-shadow: inset 0 0 20px rgba(67, 97, 238, 0.1);">
+                        <i class="fa-solid fa-brain text-primary"
+                            style="font-size: 3rem; animation: pulse-success 1.5s infinite;"></i>
+                        <div class="progress-bar w-100 mt-2"
+                            style="height: 4px; overflow: hidden; background: rgba(255,255,255,0.1);">
+                            <div class="fill bg-primary"
+                                style="width: 100%; animation: indeterminate 1.5s infinite linear;"></div>
+                        </div>
+                        <span
+                            style="color: var(--primary-light); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem;">Deep
+                            Learning Synthesis...</span>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-clipboard-list"></i> Matched Assignments</h3>
+                    </div>
+                    <div class="assignments-list" id="assignments-container">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                            <p>Run AI Match to assign volunteers to urgent tasks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Collection & AI Analysis Section -->
+        <section id="report" class="view-section">
+            <div class="section-header text-center">
+                <h2>Data Collection & AI Analysis</h2>
+                <p>Upload surveys, record voice notes, or enter data manually. Our AI will automatically categorize and
+                    score the input.</p>
+            </div>
+
+            <div class="report-container">
+                <div class="glass-card form-card">
+                    <!-- Input Tabs -->
+                    <div class="input-tabs">
+                        <button class="tab-btn active" data-input-tab="manual"><i class="fa-solid fa-keyboard"></i>
+                            Manual</button>
+                        <button class="tab-btn" data-input-tab="upload"><i class="fa-solid fa-file-image"></i> Survey
+                            Image</button>
+                        <button class="tab-btn" data-input-tab="voice"><i class="fa-solid fa-microphone"></i> Voice
+                            Note</button>
+                    </div>
+
+                    <!-- Panels -->
+                    <div class="input-panel active" id="panel-manual">
+                        <textarea class="input-glass" rows="4" placeholder="Describe the community need..."
+                            id="manual-text"></textarea>
+                    </div>
+
+                    <div class="input-panel hidden" id="panel-upload">
+                        <div class="upload-area">
+                            <i class="fa-solid fa-cloud-arrow-up text-primary"></i>
+                            <p>Drag & Drop paper survey image here or</p>
+                            <button class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Browse
+                                Files</button>
+                        </div>
+                    </div>
+
+                    <div class="input-panel hidden" id="panel-voice">
+                        <div class="voice-area text-center">
+                            <button class="btn-voice"><i class="fa-solid fa-microphone"></i></button>
+                            <p>Tap to start recording speech-to-text</p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100 mt-4 btn-glow" id="btn-analyze"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Analyze with AI</button>
+
+                    <!-- AI Results Section -->
+                    <div class="ai-results hidden" id="ai-results">
+                        <div class="ai-divider"></div>
+                        <h4 style="margin-bottom: 1rem;"><i class="fa-solid fa-robot text-primary"></i> AI Analysis
+                            Report</h4>
+
+                        <div class="glass-card mb-4"
+                            style="background: rgba(67, 97, 238, 0.1); border-left: 4px solid var(--primary);">
+                            <p class="text-sm" id="ai-summary-text">Processing natural language data...</p>
+                        </div>
+
+                        <div class="ai-fields">
+                            <div class="ai-field">
+                                <span class="ai-label">Problem Type</span>
+                                <span class="ai-value" id="ai-type">...</span>
+                            </div>
+                            <div class="ai-field">
+                                <span class="ai-label">Urgency Level</span>
+                                <span class="ai-value" id="ai-urgency">...</span>
+                            </div>
+                            <div class="ai-field">
+                                <span class="ai-label">Location Tagging</span>
+                                <span class="ai-value" id="ai-location">...</span>
+                            </div>
+                            <div class="ai-field">
+                                <span class="ai-label">Impact Score</span>
+                                <span class="ai-value" id="ai-impact">...</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100 mt-4" id="btn-submit-data"><i
+                                class="fa-solid fa-check-double"></i> Confirm & Submit to System</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Achievements Section -->
+            <section id="achievements" class="view-section">
+                <div class="section-header text-center">
+                    <h2>Volunteer Achievements</h2>
+                    <p>Track your impact, earn badges, and download official certificates.</p>
+                </div>
+
+                <div class="achievements-dashboard" style="display: grid; gap: 2rem;">
+                    <div class="rewards-dashboard"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                        <!-- Total Impact Points Card -->
+                        <div class="glass-card points-card text-center"
+                            style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(76, 201, 240, 0.1)); border: 1px solid rgba(76, 201, 240, 0.3); border-radius: 20px;">
+                            <h3 style="font-size: 1.5rem; color: var(--text-main);"><i
+                                    class="fa-solid fa-star text-warning"></i> Total Impact Points</h3>
+                            <div class="points-display"
+                                style="font-size: 4rem; font-weight: 800; margin: 1rem 0; color: white; text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);">
+                                <i class="fa-solid fa-bolt text-warning" style="font-size: 3rem;"></i>
+                                <span id="total-impact-points">0</span>
+                            </div>
+                            <p class="badge badge-ai" id="impact-level"
+                                style="font-size: 1.1rem; padding: 0.6rem 2rem; background: rgba(248, 150, 30, 0.2); color: var(--warning); border-color: rgba(248, 150, 30, 0.4);">
+                                Level: Starter</p>
+
+                            <div class="progress-bar mt-4"
+                                style="height: 16px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                <div class="fill bg-warning" id="level-progress-bar"
+                                    style="width: 0%; box-shadow: 0 0 10px rgba(248, 150, 30, 0.8);"></div>
+                            </div>
+                            <small class="text-muted mt-2 d-block" id="next-level-info">0% to next level</small>
+
+                            <!-- Confidence Score -->
+                            <div class="confidence-meter-container mt-4"
+                                style="text-align: left; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span class="text-sm fw-bold"><i class="fa-solid fa-brain text-primary"></i> Working
+                                        Confidence</span>
+                                    <span class="text-sm fw-bold text-success" id="confidence-score-value">0%</span>
+                                </div>
+                                <div class="progress-bar" style="height: 8px;">
+                                    <div class="fill bg-success" id="confidence-bar-fill"
+                                        style="width: 0%; box-shadow: 0 0 10px rgba(76, 201, 240, 0.8);"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Badges Card -->
+                        <div class="glass-card badges-card" style="border-radius: 20px;">
+                            <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;"><i
+                                    class="fa-solid fa-award text-warning"></i> Earned Badges</h3>
+                            <div class="badges-grid" id="badges-container"
+                                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 1rem;">
+                                <!-- Populated by JS -->
+                                <div class="badge-item"><i
+                                        class="fa-solid fa-seedling text-success"></i><span>Starter</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certificates Section -->
+                    <div class="glass-card mt-2" style="border-radius: 20px;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3 style="font-size: 1.5rem;"><i class="fa-solid fa-file-contract text-primary"></i> Impact
+                                Certificates</h3>
+                            <span class="badge"
+                                style="margin: 0; background: rgba(67, 97, 238, 0.15); color: var(--primary-light);">Official
+                                Documentation</span>
+                        </div>
+                        <p class="text-muted text-sm mb-4">Unlock and download verifiable certificates as you reach new
+                            impact milestones.</p>
+
+                        <div class="certificates-list" id="certificates-container"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                            <div class="certificate-card locked" id="cert-community"
+                                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 2.5rem 1rem; border-radius: 16px;">
+                                <i class="fa-solid fa-handshake"
+                                    style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary-light);"></i>
+                                <h4 style="font-size: 1.3rem;">Community Hero</h4>
+                                <p class="text-sm text-muted mt-2">Required: 1,000 Points</p>
+                                <button class="btn btn-outline btn-sm w-100 mt-3" disabled>Locked</button>
+                            </div>
+                            <div class="certificate-card locked" id="cert-expert"
+                                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 2.5rem 1rem; border-radius: 16px;">
+                                <i class="fa-solid fa-star"
+                                    style="font-size: 3rem; margin-bottom: 1rem; color: var(--warning);"></i>
+                                <h4 style="font-size: 1.3rem;">Specialist Aid</h4>
+                                <p class="text-sm text-muted mt-2">Required: 2,500 Points</p>
+                                <button class="btn btn-outline btn-sm w-100 mt-3" disabled>Locked</button>
+                            </div>
+                            <div class="certificate-card locked" id="cert-elite"
+                                style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 2.5rem 1rem; border-radius: 16px;">
+                                <i class="fa-solid fa-crown"
+                                    style="font-size: 3rem; margin-bottom: 1rem; color: var(--danger);"></i>
+                                <h4 style="font-size: 1.3rem;">Elite Impact Maker</h4>
+                                <p class="text-sm text-muted mt-2">Required: 5,000 Points</p>
+                                <button class="btn btn-outline btn-sm w-100 mt-3" disabled>Locked</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+
+    <!-- Notifications Panel -->
+    <div class="system-panel notifications-panel hidden" id="notifications-panel">
+        <div class="panel-header"
+            style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.3), rgba(20, 22, 30, 0.9));">
+            <h3><i class="fa-solid fa-bell text-warning"></i> Notifications <span class="badge"
+                    style="font-size: 0.6rem; margin:0 0 0 10px; padding: 2px 6px;">New</span></h3>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" id="mark-all-read"
+                    style="font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 12px;"><i
+                        class="fa-solid fa-check-double"></i> Mark Read</button>
+                <button class="btn-close" id="close-notifications"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="notification-item unread">
+                <div class="notif-icon bg-warning" style="box-shadow: 0 0 15px rgba(248, 150, 30, 0.5);"><i
+                        class="fa-solid fa-clock text-white"></i></div>
+                <div class="notif-content">
+                    <strong style="color: white; font-size: 0.95rem;">Task Reminder</strong>
+                    <p>Medical Camp starts in 2 hours. Please arrive early.</p>
+                    <span style="font-size: 0.7rem; color: var(--warning); margin-top: 5px; display: block;">10 mins
+                        ago</span>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notif-icon bg-success" style="box-shadow: 0 0 15px rgba(76, 201, 240, 0.5);"><i
+                        class="fa-solid fa-check text-white"></i></div>
+                <div class="notif-content">
+                    <strong style="color: white; font-size: 0.95rem;">Proof Accepted</strong>
+                    <p>Your upload for 'Food Distribution' was approved.</p>
+                    <span style="font-size: 0.7rem; color: var(--success); margin-top: 5px; display: block;">1 hour
+                        ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notif-icon bg-primary"><i class="fa-solid fa-bullhorn text-white"></i></div>
+                <div class="notif-content">
+                    <strong style="color: white; font-size: 0.95rem;">New Urgent Need</strong>
+                    <p>Disaster relief needed in Sector 4. 95% match.</p>
+                    <span
+                        style="font-size: 0.7rem; color: var(--text-muted); margin-top: 5px; display: block;">Yesterday</span>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer" style="background: rgba(0,0,0,0.4);">
+            <div class="alert-settings">
+                <span><i class="fa-solid fa-sliders text-primary"></i> Alert Preferences:</span>
+                <div style="display: flex; gap: 15px;">
+                    <label class="toggle-label" style="color: white;"><input type="checkbox" checked> SMS</label>
+                    <label class="toggle-label" style="color: white;"><input type="checkbox" checked> Email</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- In-App Chat Window -->
+    <div class="system-panel chat-window hidden" id="chat-window">
+        <div class="panel-header"
+            style="background: linear-gradient(135deg, rgba(76, 201, 240, 0.2), rgba(20, 22, 30, 0.9));">
+            <div class="chat-user">
+                <div class="chat-avatar bg-success"
+                    style="width: 35px; height: 35px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:0.9rem; font-weight:bold; color: white; box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);">
+                    NG</div>
+                <div style="display: flex; flex-direction: column;">
+                    <strong style="color: white;">City Relief Org</strong>
+                    <span style="font-size: 0.7rem; color: var(--success);"><span
+                            style="display:inline-block; width:6px; height:6px; background:var(--success); border-radius:50%; margin-right:4px; box-shadow: 0 0 5px var(--success);"></span>Online</span>
+                </div>
+            </div>
+            <button class="btn-close" id="close-chat"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="panel-body chat-body" style="background: rgba(0,0,0,0.2);">
+            <div class="chat-message received">
+                <p>Hello Sarah, are you available for the weekend drive?</p>
+                <span class="chat-time">10:42 AM</span>
+            </div>
+            <div class="chat-message sent">
+                <p>Yes, I can come in on Saturday morning!</p>
+                <span class="chat-time">10:45 AM</span>
+            </div>
+        </div>
+        <div class="panel-footer chat-footer" style="display: flex; gap: 10px; background: rgba(0,0,0,0.4);">
+            <input type="text" id="chat-input" class="input-glass" placeholder="Type a message..."
+                style="padding: 0.6rem; flex: 1; border-radius: 20px;">
+            <button id="chat-send-btn" class="btn btn-primary"
+                style="padding: 0.6rem 1.2rem; border-radius: 20px; box-shadow: 0 4px 10px rgba(67, 97, 238, 0.4);"><i
+                    class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal-overlay hidden" id="auth-modal"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+        <div class="auth-container glass-card"
+            style="width: 100%; max-width: 450px; padding: 2.5rem; position: relative; transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <button class="btn-close" id="close-auth"
+                style="position: absolute; top: 15px; right: 20px; font-size: 1.5rem;"><i
+                    class="fa-solid fa-xmark"></i></button>
+
+            <div class="auth-header text-center" style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                    <div
+                        style="background: white; padding: 10px; border-radius: 16px; box-shadow: 0 0 20px rgba(76, 201, 240, 0.4); display: inline-block;">
+                        <img src="assets/logo.jpg" alt="HelpNetra Logo"
+                            style="height: 80px; width: auto; display: block; border-radius: 8px;">
+                    </div>
+                </div>
+                <h2 id="auth-title" style="margin-bottom: 0.5rem; font-size: 1.8rem;">Welcome Back</h2>
+                <p style="color: var(--text-muted);" id="auth-subtitle">Sign in to continue your impact.</p>
+            </div>
+
+            <div class="auth-tabs"
+                style="display: flex; background: rgba(0,0,0,0.3); border-radius: 12px; padding: 0.3rem; margin-bottom: 1.5rem;">
+                <button class="auth-tab active" data-type="email"
+                    style="flex: 1; padding: 0.6rem; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; transition: all 0.3s ease; font-weight: bold; box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);">Email</button>
+                <button class="auth-tab" data-type="phone"
+                    style="flex: 1; padding: 0.6rem; border-radius: 8px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; font-weight: bold;">Phone</button>
+            </div>
+
+            <form id="auth-form" class="auth-form">
+                <div class="form-group input-group-email" style="margin-bottom: 1.2rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Email
+                        Address</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-envelope"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-light);"></i>
+                        <input type="email" id="auth-email" class="input-glass" placeholder="sarah@example.com"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 12px;" required>
+                    </div>
+                </div>
+
+                <div class="form-group input-group-phone hidden" style="margin-bottom: 1.2rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Phone
+                        Number</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-phone"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-light);"></i>
+                        <input type="tel" id="auth-phone" class="input-glass" placeholder="+1 (555) 000-0000"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 12px;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">Password</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-lock"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-light);"></i>
+                        <input type="password" id="auth-password" class="input-glass" placeholder="••••••••"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 12px;" required>
+                    </div>
+                </div>
+
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-bottom: 1.5rem;">
+                    <label class="toggle-label" style="color: var(--text-muted); cursor: pointer;"><input
+                            type="checkbox"> Remember me</label>
+                    <a href="#"
+                        style="color: var(--primary-light); text-decoration: none; transition: color 0.2s;">Forgot
+                        Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 btn-glow"
+                    style="font-size: 1rem; padding: 0.8rem; border-radius: 12px; margin-bottom: 1.5rem;"
+                    id="auth-submit-btn">
+                    Log In <i class="fa-solid fa-arrow-right" style="margin-left: 5px;"></i>
+                </button>
+
+                <div class="text-center"
+                    style="font-size: 0.9rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem;">
+                    <span id="auth-switch-text">Don't have an account?</span>
+                    <a href="#" id="auth-switch-mode"
+                        style="color: var(--primary-light); text-decoration: none; font-weight: bold; margin-left: 5px; text-shadow: 0 0 10px rgba(76, 201, 240, 0.4);">Sign
+                        Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Settings Modal -->
+    <div class="modal-overlay hidden" id="profile-modal"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;">
+        <div class="auth-container glass-card"
+            style="width: 100%; max-width: 500px; padding: 2.5rem; position: relative; transform: translateY(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <button class="btn-close" id="close-profile"
+                style="position: absolute; top: 15px; right: 20px; font-size: 1.5rem;"><i
+                    class="fa-solid fa-xmark"></i></button>
+
+            <div class="profile-header text-center" style="margin-bottom: 2rem;">
+                <div class="profile-avatar-wrapper"
+                    style="position: relative; width: 80px; height: 80px; margin: 0 auto 1rem;">
+                    <div id="profile-modal-avatar" class="volunteer-avatar"
+                        style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--success)); display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 0 20px rgba(67, 97, 238, 0.5); font-size: 2.5rem; font-weight: bold; border: 3px solid rgba(255,255,255,0.2);">
+                        JD</div>
+                    <button class="btn-edit-avatar"
+                        style="position: absolute; bottom: 0; right: -5px; background: var(--warning); border: none; width: 30px; height: 30px; border-radius: 50%; color: var(--bg-dark); font-size: 0.8rem; cursor: pointer; box-shadow: 0 0 10px rgba(248, 150, 30, 0.6); transition: all 0.2s;"><i
+                            class="fa-solid fa-camera"></i></button>
+                </div>
+                <h2 style="margin-bottom: 0.2rem; font-size: 1.5rem;">Edit Profile</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Manage your public information and skills.</p>
+            </div>
+
+            <form id="profile-form" class="auth-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
+                    <div class="form-group">
+                        <label
+                            style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">First
+                            Name</label>
+                        <input type="text" id="profile-fname" class="input-glass" value="Jane"
+                            style="width: 100%; padding: 0.8rem 1rem; border-radius: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label
+                            style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">Last
+                            Name</label>
+                        <input type="text" id="profile-lname" class="input-glass" value="Doe"
+                            style="width: 100%; padding: 0.8rem 1rem; border-radius: 10px;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">Email
+                        Address</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-envelope"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--primary-light);"></i>
+                        <input type="email" id="profile-email-input" class="input-glass" value="jane.doe@example.com"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 10px;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">Primary
+                        Skills (Comma separated)</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-star"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--warning);"></i>
+                        <input type="text" class="input-glass" value="First Aid, Food Distribution"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 10px;">
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">Location
+                        Preference</label>
+                    <div class="input-with-icon" style="position: relative;">
+                        <i class="fa-solid fa-location-dot"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--success);"></i>
+                        <input type="text" class="input-glass" value="Sector 4, Central District"
+                            style="width: 100%; padding: 0.8rem 1rem 0.8rem 2.5rem; border-radius: 10px;">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 btn-glow"
+                    style="font-size: 1rem; padding: 0.8rem; border-radius: 12px; background: linear-gradient(135deg, var(--success), #2a9d8f); border: none;"
+                    id="profile-save-btn">
+                    <i class="fa-solid fa-floppy-disk" style="margin-right: 5px;"></i> Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Mission Briefing Modal -->
+    <div class="modal-overlay hidden" id="mission-modal"
+        style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;">
+        <div class="glass-card" id="mission-container"
+            style="width: 100%; max-width: 650px; padding: 0; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 25px 60px rgba(0,0,0,0.6); transform: scale(0.9) translateY(30px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <!-- Scanning Animation Overlay -->
+            <div class="scanning-line"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--primary-light), transparent); z-index: 10; opacity: 0.6;">
+            </div>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.2), transparent); padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative;">
+                <button class="btn-close" id="close-mission"
+                    style="position: absolute; top: 20px; right: 20px; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer;"><i
+                        class="fa-solid fa-xmark"></i></button>
+                <span class="badge"
+                    style="background: var(--primary); margin-bottom: 1rem; letter-spacing: 2px;">MISSION
+                    BRIEFING</span>
+                <h2 id="mission-title" style="font-size: 2.2rem; margin: 0; letter-spacing: -1px;">Emergency Food
+                    Logistics</h2>
+                <div style="display: flex; gap: 1.5rem; margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">
+                    <span><i class="fa-solid fa-location-dot" style="color: var(--primary-light);"></i> <span
+                            id="mission-location">Sector 4, North District</span></span>
+                    <span><i class="fa-solid fa-shield-halved" style="color: var(--danger);"></i> Priority: <span
+                            id="mission-priority" style="font-weight: bold;">CRITICAL</span></span>
+                </div>
+            </div>
+
+            <div style="padding: 2rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="mission-details">
+                        <h4
+                            style="color: var(--primary-light); margin-bottom: 0.8rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
+                            Objective</h4>
+                        <p id="mission-desc"
+                            style="line-height: 1.6; opacity: 0.9; font-size: 0.95rem; margin-bottom: 1.5rem;">
+                            Establish a distribution point for 500+ families in the affected flood zone. Requires
+                            coordination with local authorities.
+                        </p>
+
+                        <h4
+                            style="color: var(--primary-light); margin-bottom: 0.8rem; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">
+                            Required Skills</h4>
+                        <div id="mission-skills" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="skill-tag">Logistics</span>
+                            <span class="skill-tag">Team Lead</span>
+                            <span class="skill-tag">Crisis Mgmt</span>
+                        </div>
+                    </div>
+                    <div class="mission-match"
+                        style="background: rgba(255,255,255,0.03); border-radius: 16px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05);">
+                        <div style="text-align: center; margin-bottom: 1.5rem;">
+                            <h4 style="margin-bottom: 1rem; font-size: 0.9rem; opacity: 0.7;">AI Matching Analysis</h4>
+                            <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                                <svg style="width: 100%; height: 100%; transform: rotate(-90deg);">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)"
+                                        stroke-width="8"></circle>
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="var(--primary)" stroke-width="8"
+                                        stroke-dasharray="283" stroke-dashoffset="283" id="match-circle"
+                                        style="transition: stroke-dashoffset 1.5s ease;"></circle>
+                                </svg>
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                    <span id="match-percent-modal"
+                                        style="font-size: 1.5rem; font-weight: bold;">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.85rem; line-height: 1.5;">
+                            <p style="margin-bottom: 0.8rem;"><i class="fa-solid fa-check text-success"></i>
+                                <strong>Strong Experience</strong> in similar field operations.</p>
+                            <p><i class="fa-solid fa-check text-success"></i> <strong>Proximity Alert:</strong> Within
+                                operating radius.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1.5rem; margin-top: 2.5rem;">
+                    <button class="btn btn-primary btn-glow" id="confirm-mission"
+                        style="flex: 2; padding: 1rem; border-radius: 12px; font-weight: bold; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
+                        <i class="fa-solid fa-check-double"></i> Accept Mission
+                    </button>
+                    <button class="btn btn-outline" id="reject-mission"
+                        style="flex: 1; padding: 1rem; border-radius: 12px; font-weight: bold; opacity: 0.6;">
+                        Decline
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
